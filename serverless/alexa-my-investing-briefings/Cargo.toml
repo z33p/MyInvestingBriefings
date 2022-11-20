@@ -4,10 +4,6 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 
-[[bin]]
-name = "main"
-path = "src/main.rs"
-
 [dependencies]
 lambda_http = { version = "0.7", default-features = false, features = ["apigw_http"] }
 lambda_runtime = "0.7"
