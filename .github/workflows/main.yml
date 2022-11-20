@@ -25,21 +25,21 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./ erverless/alexa-my-investing-briefings
+        working-directory: ./serverless/alexa-my-investing-briefings
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      # Setup rust toolchain
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
 
       - name: Setup Cargo-Lambda
         run: pip3 install cargo-lambda
 
       - name: Build
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - run: cargo lambda build --release
+        run: cargo lambda build --release
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -52,4 +52,4 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           cargo lambda deploy \
-            --iam-role arn:aws:iam::${{ secrets.AWS_IAM_DEVELOPMENT_ID }}:role/development-role 
+            --iam-role arn:aws:iam::${{ secrets.AWS_IAM_DEVELOPMENT_ID }}:role/development-role
